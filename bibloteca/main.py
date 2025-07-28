@@ -8,17 +8,17 @@ def añadir_libro_para_leer(Titulo, Autor, Año,Total_paginas):
     cursor.execute('INSERT INTO libros (Titulo, Autor, Año, Total_paginas) VALUES (?, ?, ?, ?)', (Titulo, Autor, Año, Total_paginas))
     conn.commit()
     cursor.close()
-    print("Libro añadido correctamente.")
+    print("Book added successfully.")
 
 def mostrar_libros_que_quedan_por_leer():
     cursor.execute('SELECT * FROM libros WHERE Paginas_leidas = 0')
     libros = cursor.fetchall()
     if libros:
-        print("Libros que quedan por leer: \n")
+        print("Books still to read: \n")
         for libro in libros:
-            print(f"Título: {libro[1]}, Autor: {libro[2]}, Año: {libro[3]}, Total Páginas: {libro[4]}")
+            print(f"Title: {libro[1]}, Author: {libro[2]}, Year: {libro[3]}, Total Pages: {libro[4]}")
     else:
-        print("No hay libros que quedan por leer.")
+        print("There are no more books to read.")
     conn.close()
 
 
@@ -31,9 +31,9 @@ def empezar_libro(Titulo,nuevas_paginas,start_year):
     cursor.execute('UPDATE libros SET Paginas_leidas = ?, start_year = ? WHERE Titulo = ?', (nuevas_paginas, start_year, Titulo))
     conn.commit()
     if cursor.rowcount > 0:
-        print(f"Se ha empezado a leer el libro '{Titulo}'.")
+        print(f"The book has started to be read {Titulo}.")
     else:
-        print(f"No se encontró el libro '{Titulo}' para empezar.")
+        print(f"The book to start with was not found.{Titulo}")
     cursor.close()
 
 def cuanto_me_falta_para_terminar(Titulo):
@@ -42,29 +42,29 @@ def cuanto_me_falta_para_terminar(Titulo):
     if libro:
         paginas_restantes = libro[0]
         if paginas_restantes > 0:
-            print(f"Te queda para terminar el libro: {paginas_restantes} paginas \n")
+            print(f"You have left to finish the book: {paginas_restantes} pages \n")
         else:
-            print("Ya se ha terminado el libro \n")
+            print("The book is finished \n")
     else:
-        print(f"No se encontró el libro")
+        print(f"Not found the book")
     cursor.close()
 
 def mostrar_libros():
     cursor.execute('SELECT * FROM libros')
     libros = cursor.fetchall()
     if libros:
-        print("Lista de libros:")
+        print("Book List:")
         for libro in libros:
-            print(f"ID:{libro[0]} Título: {libro[1]}, Autor: {libro[2]},  Año: {libro[3]}, Total Páginas: {libro[4]}")
+            print(f"ID:{libro[0]} Title: {libro[1]}, Author: {libro[2]},  Year: {libro[3]}, Total Pages: {libro[4]}")
     else:
-        print("No hay libros en la base de datos.")
+        print("No books found in the database.")
 
 def mostrar_libros_bibloteca():
     cursor.execute('SELECT * FROM libros_bibloteca')
     bibloteca = cursor.fetchall()
     
     for libro in bibloteca:
-        print(f'ID: {libro[0]} Título: {libro[1]}, Fecha de entrega: {libro[3]}')
+        print(f'ID: {libro[0]} Title: {libro[1]}, Delivery Date: {libro[3]}')
 
 def mostrar_dias_libro(id):
   cursor.execute('SELECT fecha_finish FROM libros_bibloteca WHERE id=?',(id,))
@@ -78,55 +78,56 @@ def mostrar_dias_libro(id):
       diferencia = fecha_finish - actual 
         
       if diferencia.days == 0:
-           print("Se te acabaron los dias")
+           print("The days are over")
       elif diferencia.days < 0:
-           print(f"Tienes un retraso de {-diferencia.days} dias")
+           print(f"You are {-diferencia.days} days late")
       else:
-          print(f"Te quedan {diferencia.days} dias para devolverlo")
+          print(f"You have {diferencia.days} days left to return it")
   else:
-     print('No esta en la base de datos')
+     print('Not found in database')
 
 def main():
     while True:
-        print("\n <--- Menú de Gestión de Libros---> \n")
-        print("1. Añadir libro para leer")
-        print("2. Mostrar libros que quedan por leer")
-        print("3. Actualizar páginas leídas de un libro")
-        print("4. Empezar a leer un libro")
-        print("5. Consultar cuánto falta para terminar un libro")
-        print("6. Consultar todos los libros que hay en la base de datos ")
-        print("7. Consultar todos los libros de la biblo ")
-        print("8. Consultar cuantos dias tengo de dias sobre un libro ")
-        print("9. Salir \n")
         
-        opcion = input("Selecciona una opción: ")   
+        print("\n <--- Book Management Menu---> \n")
+        print("1. Add book to read")
+        print("2. Show books left to read")
+        print("3. Update pages read in a book")
+        print("4. Start reading a book")
+        print("5. Check how much is left to finish a book")
+        print("6. Check all books in the database")
+        print("7. Check all books in the library")
+        print("8. Check how many days I have left on a book")
+        print("9. Exit \n")
+        
+        opcion = input("Select an option: ")   
 
         if opcion == '1':
-            Titulo = input("Introduce el título del libro: ")
-            Autor = input("Introduce el autor del libro: ")
-            Año = input("Introduce el año de publicación: ")
-            Total_paginas = int(input("Introduce el total de páginas del libro: "))
+            Titulo = input("Enter the title of the book: ")
+            Autor = input("Enter the autor of the book: ")
+            Año = input("Enter the year of the book: ")
+            Total_paginas = int(input("Enter the total pages of the book: "))
             añadir_libro_para_leer(Titulo, Autor, Año, Total_paginas)
         elif opcion == '2':
             mostrar_libros_que_quedan_por_leer()
         elif opcion == '3':
-            Titulo = input("Introduce el id del libro: ")
-            nuevas_paginas = int(input("Introduce la pagina en la cual estas: "))
+            Titulo = input("Enter id of the book: ")
+            nuevas_paginas = int(input("Enter the page you are on: "))
             actualizar_paginas_leidas(Titulo, nuevas_paginas)
         elif opcion == '4':
-            Titulo = input("Introduce el título del libro: ").strip()
-            nuevas_paginas = int(input("Introduce el número de páginas leidas: "))
-            start_year = input("Introduce el año en el que lo has empezado a leer: ")
+            Titulo = input("Enter the title of the book: ").strip()
+            nuevas_paginas = int(input("Enter the page you are on: "))
+            start_year = input("Enter the year in which you started reading the book: ")
             empezar_libro(Titulo, nuevas_paginas, start_year)
         elif opcion == '5':
-            Titulo = input("Introduce el Titulo del libro: ").strip()
+            Titulo = input("Enter the title of the book: ").strip()
             cuanto_me_falta_para_terminar(Titulo)
         elif opcion == '6':
             mostrar_libros()
         elif opcion == '7':
             mostrar_libros_bibloteca()
         elif opcion == '8':
-            id = int(input("Introduce el id del libro: "))
+            id = int(input("Enter id of the book: "))
             mostrar_dias_libro(id)
         elif opcion == '9':
             break
