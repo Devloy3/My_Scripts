@@ -1,4 +1,4 @@
-from models.tablas import trabajo
+from models.models import trabajo
 import sqlite3
 from reportlab.platypus import SimpleDocTemplate,Paragraph,Image,Spacer
 from reportlab.lib.styles import getSampleStyleSheet
@@ -12,9 +12,9 @@ def buscar_contactos(Nombre):
     contacto = cursor.fetchall()
     if contacto:
         for id, nombre, apellido, nacimiento, email, telfono in contacto:
-         print(f"\n ID:{id}, Nombre: {nombre}, Apellido: {apellido}, Año de Nacimineto: {nacimiento}, Email:{email}, Telefono: {telfono}")
+         print(f"\n ID:{id}, Name: {nombre}, Last Name: {apellido}, Birth Date: {nacimiento}, Email:{email}, Phone: {telfono}")
     else:
-        print("\n No hay nada en la base de datos")
+        print("\n Not found")
 
 
 def crear_archivo_vcf(Nombre,Apellido):
@@ -31,9 +31,9 @@ def crear_archivo_vcf(Nombre,Apellido):
         """
         with open(f"../vcf/{nombre}{apellido}.vcf", 'w') as fs:
             fs.write(vcf)
-        print(f"\n Archivo creado de {nombre}-{apellido}")
+        print(f"\n File created from {nombre}-{apellido}")
     else:
-        print("resultado no encontrado")
+        print("Not found")
 
 def crear_contacto_simple(Nombre,Apellido,Telefono):
     cursor.execute("INSERT INTO contactos(Nombre,Apellidos,Telefono) VALUES (?,?,?)", (Nombre,Apellido,Telefono))
@@ -129,9 +129,9 @@ def buscar_cuenta(cuenta):
     if resultado:
         usuario = resultado[0]
         contrasenya = resultado[1]
-        print(f"\n Usuario: {usuario} Contraseña: {contrasenya}")
+        print(f"\n User: {usuario} Password: {contrasenya}")
     else:
-        print("Cuenta no encontrada")
+        print("Account not found")
 
 def modificar_cuenta_usuario(cuenta,usuario):
     cursor.execute("UPDATE cuentas SET usuario=? WHERE cuenta=? ", (usuario,cuenta))
@@ -146,78 +146,86 @@ def modificar_cuenta_contrasenya(cuenta,contrasenya):
 def menu():
         while True:
 
-            print("\n <-- Gestion de Contactos --> \n")
-            print("1.Buscar Contactos")
-            print("2.Crear contacto simple")
-            print("3.Crear contacto con todos los datos")
-            print("4.Eliminar contacto")
-            print("5.Pasar contacto a Archivo.vcf \n")
-            print("<-- Gestion de Trabajo --> \n")
-            print("6.Modificar datos de Trabajo")
-            print("7.Hacer PDF de trabajo")
-            print("8.Crear PDF de DNI, Passaporte o Carnet \n")
-            print("<-- Gestion de cuentas --> \n")
-            print("9.Añadir Cuenta")
-            print("10.Buscar una Cuenta")
-            print("11.Modificar el usuario de una cuenta")
-            print("12.Modificar la contrasenya de una cuenta")
-            print("13.Salir \n")
+            print("\n <-- Contact Management --> \n")
+            print("1.Search Contacts")
+            print("2.Create Simple Contact")
+            print("3.Create Contact with All Data")
+            print("4.Delete Contact")
+            print("5.Transfer Contact to File.vcf \n")
+            print("<-- Work Management --> \n")
+            print("6. Insert Work Data")
+            print("7. Modify Work Data")
+            print("8. Create Work PDF")
+            print("9. Create PDF of ID Card, Passport, or License \n")
+            print("<-- Account Management --> \n")
+            print("10.Add Account")
+            print("11.Search for an Account")
+            print("12.Modify an account user")
+            print("13.Modify an account password")
+            print("14.Exit \n")
             
-            opcion = int(input("Que hacemos?"))
+            opcion = int(input("What we do?"))
 
             if opcion == 1:
-                    Nombre = input("Nombre del Contacto:").strip()
+                    Nombre = input("Contact Name:").strip()
                     buscar_contactos(Nombre)
             elif opcion == 2:
-                    Nombre = input("Nombre:")
-                    Apellido = input("Apellido:")
-                    Telefono = int(input("Telefono:"))
+                    Nombre = input("Name:")
+                    Apellido = input("Last Name:")
+                    Telefono = int(input("Phone:"))
                     crear_contacto_simple(Nombre,Apellido,Telefono)
             elif opcion == 3:
-                    Nombre = input("Nombre:")
-                    Apellido = input("Apellido:")
-                    Telefono = int(input("Telefono:"))
-                    Año = input("Introduce el Año de Nacimiento asi 0000-00-00:")
+                    Nombre = input("Name:")
+                    Apellido = input("Last Name:")
+                    Telefono = int(input("Phone:"))
+                    Año = input("Enter your year of birth as 0000-00-00:")
                     Email = input("Email:")
-                    Pais = input("Tres de letras de que pais es el Telfono:")
+                    Pais = input("Three letters from which country is the phone number:")
                     crear_contacto_todo(Nombre,Apellido,Telefono,Año,Email,Pais)
             elif opcion == 4:
-                    id = int(input("id del contacto:"))
+                    id = int(input("ID contact:"))
                     eliminar_contacto(id)
             elif opcion == 5:
-                    Nombre = input("Nombre del contacto:").strip()
-                    Apellido = input("Apellido del Contacto:").strip()
+                    Nombre = input("Contact Name:").strip()
+                    Apellido = input("Last Name Contact:").strip()
                     crear_archivo_vcf(Nombre,Apellido)
             elif opcion == 6:
-                    DNI = input("Nuevo DNI:")
-                    SS = input("Nuevo Numero de la SS:")
-                    Bancaria = input("Nueva Cuenta Bancaria: ")
-                    modificar_datos_trabajo(DNI,SS,Bancaria)
+                    Nombre = input("Name:").strip()
+                    Apellidos = input("Last Name:").strip()
+                    DNI = input("National Identity Card:").strip()
+                    SS = input("Social Security Number:").strip()
+                    Cuenta_Bancaria = input("Account Bank:").strip()
+                    insertar_datos_trabajo(Nombre,Apellidos,DNI,SS,Cuenta_Bancaria)
             elif opcion == 7:
-                    print("Quieres incluir el carnet de conducir? (SI/NO)")
-                    car = int(input("1.SI / 2.NO"))
-                    pdf_trabajo(car)
+                    DNI = input(" New National Identity Card:")
+                    SS = input("New Social Security Number:")
+                    Bancaria = input("New Bank Account: ")
+                    modificar_datos_trabajo(DNI,SS,Bancaria)
             elif opcion == 8:
-                    Dni = int(input("Quieres incluir el DNI en el pdf? 1.SI 2.NO"))
-                    Carnet = int(input("Quieres incluir el Carnet de Conducir? 1.SI 2.NO"))
-                    pdf_datos(Dni,Carnet)
+                    print("Do you want to include your driver card?")
+                    car = int(input("1.YES / 2.NO"))
+                    pdf_trabajo(car)
             elif opcion == 9:
-                    cuenta = input("Que tipo de cuenta es?")
-                    usuario = input("Usuario:")
-                    contrasenya = input("Contraseña:")
-                    añdir_cuentas(cuenta,usuario,contrasenya)
+                    Dni = int(input("Do you want to include your National Identity Card in pdf? 1.YES 2.NO"))
+                    Carnet = int(input("Do you want to include your driver card? 1.YES 2.NO"))
+                    pdf_datos(Dni,Carnet)
             elif opcion == 10:
-                    cuenta = input("Que cuenta quieres buscar?").strip()
-                    buscar_cuenta(cuenta)
+                    cuenta = input("What type of account is it?")
+                    usuario = input("User:")
+                    contrasenya = input("Password:")
+                    añdir_cuentas(cuenta,usuario,contrasenya)
             elif opcion == 11:
-                    cuenta = input("Que cuenta quieres modificar?").strip()
-                    usuario = input("Nuevo Usuario:")
-                    modificar_cuenta_usuario(cuenta,usuario)
+                    cuenta = input("Which account do you want to search for?").strip()
+                    buscar_cuenta(cuenta)
             elif opcion == 12:
-                    cuenta = input("Que cuenta quieres modificar?").strip()
+                    cuenta = input("Which account do you want to modify?").strip()
+                    usuario = input("New User:")
+                    modificar_cuenta_usuario(cuenta,usuario)
+            elif opcion == 13:
+                    cuenta = input("Which account do you want to modify?").strip()
                     contrasenya = input("Nueva Contrasenya:")
                     modificar_cuenta_contrasenya(cuenta,contrasenya)
-            elif opcion == 13:
+            elif opcion == 14:
                 cursor.close()
                 break
             
