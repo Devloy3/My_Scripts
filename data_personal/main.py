@@ -99,6 +99,15 @@ def pdf_datos(Dni,Carnet):
     
     c.build(contenido)
 
+def insertar_datos_trabajo(Nombre,Apellidos,DNI,SS,Cuenta_Bancaria):
+     trabajo.insert({
+          'Nombre': Nombre,
+          'Apellidos': Apellidos,
+          'DNI': DNI,
+          'Seguridad Social': SS,
+          'Cuenta Bancaria': Cuenta_Bancaria
+     })
+
 def modificar_datos_trabajo(DNI,SS,Bancaria):
     trabajo.update({
                     'DNI':DNI,
