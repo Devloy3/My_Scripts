@@ -1,8 +1,8 @@
-# App Personal_data
+# App de datos personales
 
-This app is entirely local.
+Esta es app es enteramente local
 
-## Installation 
+## Instalacion
 
 1. Frameworks 
 
@@ -10,12 +10,12 @@ This app is entirely local.
 pip install tinydb
 pip install reportlab
 ```
-2. Start the database module 
+2. Iniciar la base de datos que esta en models.py
 
 ```
 python3 models.py
 ```
-3. Place the images of your ID card and driver's license in this section.
+3. Aqui hay que poner en que carpeta esta alojado vuestro DNI y Carnet de Conducir
 
 ```
 def pdf_trabajo(car):
@@ -69,8 +69,8 @@ def pdf_datos(Dni,Carnet):
     c.build(contenido)
 
 ```
-4. Start de App
+4. Y iniciar la app
 
 ```
-python3 main.py
+./run.sh
 ```

@@ -1,14 +1,12 @@
 # My scripts 
 
-This is a repository where all the scripts I have created will be stored.
+En este repositorio almaceno mis scripts personales para tenerlos por si falla cualquier cosa, (mas que nada que no falle el pendrive)
 
-Each folder is a different feature, and inside each folder there is a Readme file explaining how to install the feature.
-
->Folder tree
+>Arbol de Scripts
 
 ```
 
-├── bibloteca
+├── data_financial
 ├── data_personal   
 └── README.md
 
