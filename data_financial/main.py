@@ -112,11 +112,11 @@ def menu():
 
         if option == 1:
             archivo = input("Pon la ruta del Archivo:").strip()
-            crear_pdf_caixa(archivo)
+            enseñar_datos_de_la_caixa(archivo)
         elif option == 2:
             archivo = input("Pon la ruta del Archivo:").strip()
             periodo = input("Periodo del Archivo:").strip()
-            crear_pdf_revoult(archivo,periodo)
+            hacer_pdf_de_revoult(archivo,periodo)
         elif option == 3:
             salario_neto = input("Introduce tu Salario: ")
             texto = administracion_de_dinero(salario_neto)
