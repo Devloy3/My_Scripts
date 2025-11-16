@@ -6,7 +6,7 @@ En este repositorio almaceno mis scripts personales para tenerlos por si falla c
 
 ```
 
-├── data_financial
+├── bibloteca
 ├── data_personal   
 └── README.md
 
